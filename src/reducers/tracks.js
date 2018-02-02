@@ -1,7 +1,4 @@
-const initialState = [
-  'Smells like spirit',
-  'Enter Sandman'
-];
+const initialState = [];
 
 //функция редьюсер
 export default function tracks(state = initialState, action) { //берем прошлое состояние

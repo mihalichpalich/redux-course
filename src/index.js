@@ -2,26 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import './index.css';
 import App from './App';
+import './index.css';
+import reducer from './reducers';
 import registerServiceWorker from './registerServiceWorker';
 
-const initialState = [
-  'Smells like spirit',
-  'Enter Sandman'
-];
-
-function playlist(state = initialState, action) {
-  if (action.type === 'ADD_TRACK') {
-    return [
-      ...state,
-      action.payload
-    ];
-  };
-  return state;
-}
-
-const store = createStore(playlist, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 // передаем стор в качестве параметра с помощью компонента provider
 ReactDOM.render(

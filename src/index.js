@@ -7,9 +7,9 @@
 // ReactDOM.render(<App />, document.getElementById('root'));
 // registerServiceWorker();
 
-import {createStore} from 'redux'; //импорт функции, которая создает стор
+import {createStore} from 'redux';
 
-function playlist(state = [], action) { //state - текущее состояние, action - событие
+function playlist(state = [], action) {
   if (action.type === 'ADD_TRACK') {
     return [
       ...state,
@@ -17,21 +17,28 @@ function playlist(state = [], action) { //state - текущее состоян�
     ];
   };
   return state;
-} //получаем экшены и меняем стор
+}
 
-//Store - это наше хранилище всех данных в приложении. Он неизменяем, всегда создается новая копия
+const store = createStore(playlist);
 
-const store = createStore(playlist); //создаем новый store для приложения, передаем в него ф-ю, которую его меняет
+const addTrackBtn = document.querySelectorAll('.addTrack')[0];
+const trackInput = document.querySelectorAll('.trackInput')[0];
+const list = document.querySelectorAll('.list')[0];
 
-console.log(store.getState()); //вывод содержимого стора
+store.subscribe(() => {
+  list.innerHTML = '';
+  trackInput.value = '';
+  store.getState().forEach(track => {
+    const li = document.createElement('li');
+    li.textContent = track;
+    list.appendChild(li);
+  });
+});
 
-store.subscribe(() => { //callback, который выстрелит, если у нас поменяется значение в store
-  console.log('subscribe', store.getState());
-}); // подписаться на изменение нашего store, чтобы знать, что у нас изменились данные в нем.
-
-store.dispatch({type: 'ADD_TRACK', payload: 'Smells like spirit'}); //dispatch - вызов объекта, action, единственный способ поменять значение в store; type - его тип, обязательный элемент, payload - поле данных
-store.dispatch({type: 'ADD_TRACK', payload: 'Enter Sandman'});
-
+addTrackBtn.addEventListener('click', () => {
+  const trackName = trackInput.value;
+  store.dispatch({type: 'ADD_TRACK', payload: trackName});
+});
 
 // const initialState = {
 //   name: 'Paul',

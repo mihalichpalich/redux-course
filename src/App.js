@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import {getTracks} from './actions/tracks.js'
+
 class App extends Component {
   addTrack() {
       console.log('addTrack', this.trackInput.value);
@@ -19,11 +21,14 @@ class App extends Component {
       <div>
         <div>
           <input type="text" ref={(input) => { this.trackInput = input }} />
-          <button onClick={this.addTrack.bind(this)}>Add track</button>
+          <button onClick={this.addTrack.bind(this)}>Add track</button> {/*экшен вызывается не напрямую из props, поэтому нужен bind*/}
         </div>
         <div>
           <input type="text" ref={(input) => { this.searchInput = input }} />
           <button onClick={this.findTrack.bind(this)}>Find track</button>
+        </div>
+        <div>
+          <button onClick={this.props.onGetTracks}>Get tracks</button> {/*получаем асинхронно список треков, как будто от API и рендерим их вместо наших треков на странице*/}
         </div>
         <ul>
           {this.props.tracks.map((track, index) =>
@@ -50,6 +55,9 @@ export default connect(
     onFindTrack: (name) => {
       console.log('name', name);
       dispatch({type: 'FIND_TRACK', payload: name});
+    },
+    onGetTracks: () => {
+      dispatch(getTracks()); //вместо объекта передаем в dispatch ф-ю, которая возвращает ф-ю с dispatch
     }
   })
 )(App);

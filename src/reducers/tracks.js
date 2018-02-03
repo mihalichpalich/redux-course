@@ -7,8 +7,8 @@ export default function tracks(state = initialState, action) { //берем пр
       ...state,
       action.payload
     ];
-  } else if (action.type === 'DELETE_TRACK') {
-    return state;
+  } else if (action.type === 'FETCH_TRACKS_SUCCESS') { //добавим условие 'FETCH_TRACKS_SUCCESS' в редьюсер
+    return action.payload;
   };
 
   return state; //возвращаем новое

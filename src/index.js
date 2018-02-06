@@ -4,13 +4,17 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+//import {Router, Route, hashHistory} from 'react-router';
+//import {syncHistoryWithStore} from 'react-router-redux';
 
 import App from './App';
 import './index.css';
 import reducer from './reducers';
+//import About from './About';
 import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
+//const history = syncHistoryWithStore(hashHistory, store);
 
 // передаем стор в качестве параметра с помощью компонента provider
 ReactDOM.render(
@@ -20,6 +24,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 registerServiceWorker();
+
 
 // import {createStore} from 'redux';
 

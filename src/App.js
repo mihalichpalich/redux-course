@@ -1,43 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import {getTracks} from './actions/tracks.js'
 
-class App extends Component {
-  addTrack() {
-      console.log('addTrack', this.trackInput.value);
-      this.props.onAddTrack(this.trackInput.value);
-      this.trackInput.value = '';
+const App = ({tracks, onAddTrack, onFindTrack, onGetTracks}) => { //получаем tracks и onAddTrack из props
+  let trackInput = '';
+  let searchInput = '';
+
+  const addTrack = () => {
+    console.log('addTrack', trackInput.value);
+    onAddTrack(trackInput.value);
+    trackInput.value = '';
   }
 
-  findTrack() {
-    console.log('findTrack', this.searchInput.value);
-    this.props.onFindTrack(this.searchInput.value);
+  const findTrack = () => {
+    console.log('findTrack', searchInput.value);
+    onFindTrack(searchInput.value);
   }
 
-  render() {
-    console.log(this.props.tracks);
-    return (
+  return (
       <div>
         <div>
-          <input type="text" ref={(input) => { this.trackInput = input }} />
-          <button onClick={this.addTrack.bind(this)}>Add track</button> {/*экшен вызывается не напрямую из props, поэтому нужен bind*/}
+          <input type="text" ref={(input) => {trackInput = input}} />
+          <button onClick={addTrack}>Add track</button> {/*экшен вызывается не напрямую из props, поэтому нужен bind*/}
         </div>
         <div>
-          <input type="text" ref={(input) => { this.searchInput = input }} />
-          <button onClick={this.findTrack.bind(this)}>Find track</button>
+          <input type="text" ref={(input) => {searchInput = input}} />
+          <button onClick={findTrack}>Find track</button>
         </div>
         <div>
-          <button onClick={this.props.onGetTracks}>Get tracks</button> {/*получаем асинхронно список треков, как будто от API и рендерим их вместо наших треков на странице*/}
+          <button onClick={onGetTracks}>Get tracks</button> {/*получаем асинхронно список треков, как будто от API и рендерим их вместо наших треков на странице*/}
         </div>
         <ul>
-          {this.props.tracks.map((track, index) =>
+          {tracks.map((track, index) =>
             <li key={index}>{track.name}</li>
           )}
         </ul>
       </div>
-    );
-  }
+  );
 }
 
 export default connect(
